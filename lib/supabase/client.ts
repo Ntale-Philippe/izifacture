@@ -1,8 +1,7 @@
 import { createBrowserClient } from "@supabase/ssr";
 import { createClient as createBaseClient } from "@supabase/supabase-js";
 
-const URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const KEY = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!;
+import { SUPABASE_KEY as KEY, SUPABASE_URL as URL } from "./env";
 
 /** Client Supabase côté navigateur (clé publique : l'accès est limité par les règles RLS). */
 export function createClient() {

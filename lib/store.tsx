@@ -12,6 +12,7 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient as createSupabase } from "./supabase/client";
+import type { SupabaseClient } from "@supabase/supabase-js";
 import {
   clientToRow,
   friendlyError,
@@ -66,7 +67,9 @@ interface AppData {
 const AppDataContext = createContext<AppData | null>(null);
 
 export function AppDataProvider({ children }: { children: React.ReactNode }) {
-  const supabase = useMemo(() => createSupabase(), []);
+  // Créé uniquement dans le navigateur : pendant la génération statique des pages (build),
+  // aucun effet ni action ne s'exécute, le client n'est donc jamais utilisé côté serveur.
+  const supabase = useMemo(() => (typeof window === "undefined" ? (null as unknown as SupabaseClient) : createSupabase()), []);
   const router = useRouter();
   const { toast } = useToast();
 

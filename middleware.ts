@@ -1,5 +1,6 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { createServerClient } from "@supabase/ssr";
+import { MISSING_ENV_MESSAGE, SUPABASE_KEY, SUPABASE_URL, hasSupabaseEnv } from "@/lib/supabase/env";
 
 // Pages accessibles sans être connecté.
 const PUBLIC_PATHS = ["/connexion", "/inscription", "/mot-de-passe-oublie", "/auth"];
@@ -9,9 +10,13 @@ const PUBLIC_PATHS = ["/connexion", "/inscription", "/mot-de-passe-oublie", "/au
  * non connecté → /connexion ; déjà connecté sur une page d'accès → /dashboard.
  */
 export async function middleware(request: NextRequest) {
+  // Variables absentes (ex. déploiement sans configuration) : message explicite plutôt qu'une erreur 500 opaque.
+  if (!hasSupabaseEnv) {
+    return new NextResponse(MISSING_ENV_MESSAGE, { status: 503, headers: { "content-type": "text/plain; charset=utf-8" } });
+  }
   let response = NextResponse.next({ request });
 
-  const supabase = createServerClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY!, {
+  const supabase = createServerClient(SUPABASE_URL, SUPABASE_KEY, {
     cookies: {
       getAll() {
         return request.cookies.getAll();
