@@ -85,8 +85,11 @@ s'affiche « En retard » (calcul client : `effectiveStatus()`).
 
 ## 5. Configuration du projet Supabase
 
-- Auth › URL Configuration : Site URL `http://localhost:3000`, Redirect URLs `http://localhost:3000/**`
-  (à compléter avec le domaine de production lors du déploiement).
+- **Production** : https://izifacture-one.vercel.app (Vercel, déploiement automatique à chaque push sur `main`).
+  Variables Vercel : `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` (Production + Preview).
+- Auth › URL Configuration : Site URL `https://izifacture-one.vercel.app` ; Redirect URLs `http://localhost:3000/**`,
+  `https://izifacture-one.vercel.app/**`, `https://izifacture-git-main-nt13.vercel.app/**`, `https://izifacture-*-nt13.vercel.app/**`.
+  Nouveau domaine (ex. nom de domaine personnalisé) ⇒ l'ajouter ici ET dans Supabase.
 - **Liens e-mail** : inscription, renvoi et mot de passe oublié utilisent `createEmailAuthClient()` (flux *implicit*) avec
   `redirectTo = /auth/session?next=…`. Le lien marche donc depuis n'importe quel appareil (app Gmail, téléphone).
   Ne pas repasser ces appels sur le client PKCE par défaut : le lien ne fonctionnerait plus que dans le navigateur d'origine.
@@ -109,5 +112,5 @@ s'affiche « En retard » (calcul client : `effectiveStatus()`).
 - [ ] SMTP : script et modèles prêts (`npm run setup:smtp`) — en attente des identifiants Brevo de l'utilisateur
 - [ ] Envoi réel des factures et relances par e-mail (Edge Function + Resend), avec PDF
 - [ ] Logo de l'entreprise (Supabase Storage) affiché sur les factures
-- [ ] Déploiement (Vercel) : variables d'environnement + Redirect URLs de production
+- [x] Déploiement Vercel : https://izifacture-one.vercel.app (variables + Redirect URLs configurées)
 - [ ] Examiner l'avertissement `rls_auto_enable` du conseiller de sécurité
