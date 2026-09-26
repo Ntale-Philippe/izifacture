@@ -1,0 +1,15 @@
+# Dépendances et builds
+node_modules
+.next
+.next-check
+*.tsbuildinfo
+
+# Secrets : ne jamais versionner (voir SUPABASE.md)
+.env*.local
+
+# Captures d'inspiration (designs de tiers)
+/{*}.png
+
+# Système
+.DS_Store
+Thumbs.db
